@@ -1,5 +1,7 @@
 #!/bin/python3
 
+# Hello, I am --> Juliet <--
+
 import socket as sock
 
 firstpeer = sock.socket(sock.AF_INET, sock.SOCK_DGRAM)
