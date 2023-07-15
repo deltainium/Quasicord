@@ -4,15 +4,29 @@
 
 import socket as sock
 
-firstpeer = sock.socket(sock.AF_INET, sock.SOCK_DGRAM)
+import threading
+assert threading
 
-addr = "127.0.0.1"
-port = 9999
 
-firstpeer.bind((addr, port))
+juliet_addr = "127.0.0.1"
+juliet_port = 9999
 
-buffer = (1024)
+def startup(juliet_addr, juliet_port):
+    juliet = sock.socket(sock.AF_INET, sock.SOCK_DGRAM)
+    juliet.bind((juliet_addr, juliet_port))
+    return(juliet)
+    
 
-firstpeer.sendto("test".encode(), ("127.0.0.1", 8888))
+def ping(juliet):
+    juliet.sendto("ping".encode("utf-8"), ("127.0.0.1", 8888))
+    status, romeo_addr = juliet.recvfrom(4)
+    if status.decode() == "conf":
+        print("Pass")
+        pass
+    else:
+        print("Fail")
+        
+juliet = startup(juliet_addr, juliet_port)
 
-firstpeer.close()
+ping(juliet)
+juliet.close()
